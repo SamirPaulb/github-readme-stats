@@ -30,6 +30,8 @@ export default async (req, res) => {
     api_domain,
     border_radius,
     border_color,
+    display_format,
+    disable_animations,
   } = req.query;
 
   res.setHeader("Content-Type", "image/svg+xml");
@@ -52,7 +54,7 @@ export default async (req, res) => {
     let cacheSeconds = clampValue(
       parseInt(cache_seconds || CONSTANTS.CARD_CACHE_SECONDS, 10),
       CONSTANTS.SIX_HOURS,
-      CONSTANTS.ONE_DAY,
+      CONSTANTS.TWO_DAY,
     );
     cacheSeconds = process.env.CACHE_SECONDS
       ? parseInt(process.env.CACHE_SECONDS, 10) || cacheSeconds
@@ -83,6 +85,8 @@ export default async (req, res) => {
         locale: locale ? locale.toLowerCase() : null,
         layout,
         langs_count,
+        display_format,
+        disable_animations: parseBoolean(disable_animations),
       }),
     );
   } catch (err) {
